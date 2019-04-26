@@ -2,8 +2,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Magic 8-Ball</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="transparent">
+    <meta name="apple-mobile-web-app-title" content="Magic 8-Ball">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://mevanloon.github.io/magic-8-ball/apple-touch-icon.png">
     <style media="screen">
       body {
         margin:0;
@@ -11,10 +16,30 @@
         min-height: 80vh;
         flex-flow: column;
       }
+      section {
+        position: absolute;
+        top: calc(100vh);
+        padding: 0 1rem;
+      }
+      img {
+        max-width: 100%;
+        heigth: auto;
+      }
+      body h2 a {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        text-decoration: none;
+      }
       .eightball {
         width: 300px;
         height: 300px;
         background-color: black;
+      }
+      @keyframes fadeOut {
+        to {
+          opacity: 0;
+        }
       }
       #numbereight {
         width: 120px;
@@ -22,7 +47,7 @@
         background-color: white;
         font-size: 50px;
         font-weight: bold;
-        transition: opacity .5s ease-out;
+        animation: fadeOut .5s ease-out;
       }
       #answer {
         opacity: 0;
@@ -61,6 +86,8 @@
     </style>
   </head>
   <body class="flexcenter">
+    <h2><a href="#info">ℹ</a></h2>
+
     <div class="eightball flexcenter">
       <div id="numbereight" class="flexcenter">8</div>
       <div id="answer" class="flexcenter" style="display: none;">
@@ -140,17 +167,30 @@
           }
         })
       })
-      numbereight.addEventListener('click', ()=> {
-        numbereight.style = "opacity: 0;"
-        numbereight.addEventListener('transitionend', ()=>{
-          numbereight.style = "opacity: 0;display: none"
-          answer.style = ""
-          window.requestAnimationFrame(()=> {
-            answer.style = "opacity: 1"
-          })
 
+      numbereight.addEventListener('animationend', ()=>{
+        numbereight.style = "opacity: 0;display: none"
+        answer.style = ""
+        window.requestAnimationFrame(()=> {
+          answer.style = "opacity: 1"
         })
       })
+      console.log(window.ondevicemotion)
+
     </script>
+
+    <hr/>
+
+    <section id="info">
+      <h4>By <a href="//twitter.com/matthijsewoud">@matthijsewoud</a></h4>
+      <h4>Not working?</h4>
+      <p>Your device might not support using the accelerometer. Most smartphones support this, although iOS devices running version 12.2 or later might have to turn on Motion & Orientation Access, in Settings > Safari.</p>
+      <p><img src="motion-setting.png"/></p>
+
+      <script type="text/javascript">
+        // document.write(window.ondevicemotion)
+      </script>
+  </section>
+
   </body>
 </html>
