@@ -52,18 +52,13 @@
       .center {
         text-align: center;
       }
-      @keyframes fadeOut {
-        to {
-          opacity: 0;
-        }
-      }
       #numbereight {
         width: 120px;
         height: 120px;
         background-color: white;
         font-size: 50px;
         font-weight: bold;
-        animation: fadeOut .5s ease-out;
+        transition: all .5s ease-out;
       }
       #answer {
         opacity: 0;
@@ -101,11 +96,12 @@
         float: right;
       }
 
-
     </style>
   </head>
   <body class="flexcenter">
     <h2><a href="#info">ℹ</a></h2>
+
+    <p class="prompt">(Tap the <i>8</i> to start)</p>
 
     <div class="eightball flexcenter">
       <div id="numbereight" class="flexcenter">8</div>
@@ -124,13 +120,6 @@
 
     <section id="info">
       <h4>By <a href="//twitter.com/matthijsewoud">@matthijsewoud</a></h4>
-      <h4>Not working?</h4>
-      <p>Your device might not support using the accelerometer. Most smartphones support this, although iOS devices running version 12.2 or later might have to turn on Motion & Orientation Access, in Settings > Safari.</p>
-      <p><img src="motion-setting.png"/></p>
-
-      <script type="text/javascript">
-        // document.write(window.ondevicemotion)
-      </script>
     </section>
 
     <aside id="ios-add-to-homescreen-popup" class="center">
@@ -182,7 +171,7 @@
           answerText.innerText = getAnswer()
         }
 
-        window.addEventListener('devicemotion', e => {
+        const handleMotion = e => {
           window.requestAnimationFrame(()=>{
             let movementTotal = getMovementTotal(e.acceleration)
 
@@ -206,11 +195,20 @@
               movementsCounter = 0
             }
           })
-        })
+        }
+        window.addEventListener('devicemotion', handleMotion)
 
-        numbereight.addEventListener('animationend', ()=>{
+        numbereight.addEventListener('click', ()=>{
           numbereight.style = "opacity: 0;display: none"
           answer.style = ""
+          document.querySelector('.prompt').style = 'display: none'
+
+          if(window.DeviceMotionEvent) DeviceMotionEvent.requestPermission().then(response => {
+            if(response == 'granted') {
+              window.addEventListener('devicemotion', handleMotion)
+            }
+          })
+
           window.requestAnimationFrame(()=> {
             answer.style = "opacity: 1"
           })
