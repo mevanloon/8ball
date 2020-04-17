@@ -137,7 +137,7 @@
             shakeTimeout
 
         function getMovementTotal(a) {
-          return Math.abs(a.x) + Math.abs(a.y) + Math.abs(a.z)
+          return Math.abs(a.x) + Math.abs(a.y)
         }
 
         function getAnswer() {
@@ -173,9 +173,9 @@
 
         const handleMotion = e => {
           window.requestAnimationFrame(()=>{
-            let movementTotal = getMovementTotal(e.acceleration)
+            let movementTotal = getMovementTotal(e.acceleration || e.accelerationIncludingGravity)
 
-            if(movementTotal > 7) {
+            if(movementTotal > 18) {
               movementsCounter++
               if(movementsCounter > 20) {
                 shaking = true
@@ -184,6 +184,7 @@
                 shakeTimeout = setTimeout(() => {
                   shaken = true
                 }, 1000)
+                numbereight.style = "opacity: 0;display: none"
               }
             }
             else if(movementTotal < 7) {
@@ -199,15 +200,21 @@
         window.addEventListener('devicemotion', handleMotion)
 
         numbereight.addEventListener('click', ()=>{
+          if(typeof DeviceOrientationEvent !== 'undefined' && window.DeviceMotionEvent) {
+            DeviceMotionEvent.requestPermission()
+            .then(response => {
+              if(response == 'granted') {
+                window.addEventListener('devicemotion', handleMotion)
+              }
+            })
+          }
+          else {
+
+          }
           numbereight.style = "opacity: 0;display: none"
-          answer.style = ""
+          answer.style = "opacity: 1"
           document.querySelector('.prompt').style = 'display: none'
 
-          if(window.DeviceMotionEvent) DeviceMotionEvent.requestPermission().then(response => {
-            if(response == 'granted') {
-              window.addEventListener('devicemotion', handleMotion)
-            }
-          })
 
           window.requestAnimationFrame(()=> {
             answer.style = "opacity: 1"
