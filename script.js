@@ -32,7 +32,7 @@ const magic8BallInit = () => {
       "Outlook not so good",
       "Very doubtful"
     ]
-    return responses[Math.round(Math.random() * responses.length)]
+    return responses[Math.floor(Math.random() * responses.length)]
   }
 
   function showAnswer() {
@@ -59,11 +59,11 @@ const magic8BallInit = () => {
       eightball.style.transform = `none`
     }
 
-    if(movementTotal > 15) {
+    if(movementTotal > 10) {
       movementsCounter++
-      if(movementsCounter > 20) {
+      if(movementsCounter > 15) {
         shaking = true
-        answer.classList.add('active')
+        answer.classList.add('bubbling')
         clearTimeout(shakeTimeout) // Prevents multiple answers
         shakeTimeout = setTimeout(() => {
           shaken = true
@@ -76,6 +76,9 @@ const magic8BallInit = () => {
         showAnswer()
         shaking = false
         shaken = false
+        answer.classList.add('active')
+        answer.classList.remove('bubbling')
+
       }
       movementsCounter = 0
     }
@@ -106,7 +109,6 @@ const magic8BallInit = () => {
     }
     numbereight.classList.add('inactive')
     answer.classList.add('active')
-    answer.style = "opacity: 1"
     
     document.querySelector('.prompt').style = 'opacity: 0'
   })
