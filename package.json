@@ -5,19 +5,15 @@
   "main": "index.html",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mevanloon/magic-8-ball.git"
+    "url": "git+https://github.com/mevanloon/8ball.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mevanloon/magic-8-ball/issues"
+    "url": "https://github.com/mevanloon/8ball/issues"
   },
-  "homepage": "https://github.com/mevanloon/magic-8-ball#readme",
+  "homepage": "https://github.com/mevanloon/8ball#readme",
   "scripts": {
-    "start": "browser-sync -f index.html --https"
-  },
-  "devDependencies": {
-    "browsersync": "0.0.1-security",
-    "parceljs": "0.0.1"
+    "start": "browser-sync -f . --https --no-open"
   }
 }
