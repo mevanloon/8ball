@@ -78,7 +78,6 @@ const magic8BallInit = () => {
         shaken = false
         answer.classList.add('active')
         answer.classList.remove('bubbling')
-
       }
       movementsCounter = 0
     }
@@ -93,12 +92,10 @@ const magic8BallInit = () => {
   })
 
   numbereight.addEventListener('click', () => {
-    if(typeof DeviceOrientationEvent != 'undefined' && DeviceMotionEvent && DeviceMotionEvent.requestPermission) {
-      DeviceMotionEvent.requestPermission()
-      .then(response => {
-        if(response == 'granted')
-          window.addEventListener('devicemotion', handleMotion)
-      })
+    if(typeof DeviceMotionEvent != 'undefined' && DeviceMotionEvent) {
+      if(typeof DeviceMotionEvent.requestPermission == 'function') {
+        DeviceMotionEvent.requestPermission()
+      }
     }
     else {
       requestAnimationFrame(function() {
